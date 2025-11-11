@@ -5,7 +5,6 @@ train test split is a function in **Scikit-learn** that helps you **divide your 
 * **Training data** → used to **teach** your model.
 * **Testing data** → used to **check** how well your model learned.
 
-
 If you train and test your model on the  **same data** , it might just **memorize** the answers — not actually  **learn patterns** . So we keep some data aside (test data) to see how it performs on  **new, unseen data** .
 
 Code:
@@ -18,7 +17,6 @@ x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 * y → your target/output (for example, “will_buy” = yes/no)
 * test_size=0.2 → means 20% of data is for testing, 80% for training.
 * random_state=42 → ensures the split is **the same every time** you run the code (for consistency).
-
 
 ## 2. One Hot Encoding
 
@@ -33,3 +31,23 @@ We create an object called encoder to do the one-hot encoding.
 * sparse_output=False means:
 
   --Give the result as a **normal table (array)** instead of a compressed format.
+
+## 3. Imputation transformer
+
+**Imputation** simply means  **filling in missing data** .
+
+When your dataset has  **blank or missing values (NaN)** , machine learning models can’t work properly — they need complete data.
+
+So we use **imputation** to fill those blanks with something meaningful (like average, median, or most frequent value).
+
+
+In  **Scikit-learn** , the **`SimpleImputer`** is an  *imputation transformer* .
+
+It **transforms** your data by replacing missing values automatically.
+
+
+## 4. Scaling
+
+**Scaling** means **changing the range of your data values** — so that all features (columns) are on a  **similar scale** .
+
+Scaling makes **big numbers smaller** and  **small numbers bigger** , so they are all in a similar range.
