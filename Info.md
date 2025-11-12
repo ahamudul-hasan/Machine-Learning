@@ -40,14 +40,16 @@ When your dataset has  **blank or missing values (NaN)** , machine learning mode
 
 So we use **imputation** to fill those blanks with something meaningful (like average, median, or most frequent value).
 
-
 In  **Scikit-learn** , the **`SimpleImputer`** is an  *imputation transformer* .
 
 It **transforms** your data by replacing missing values automatically.
-
 
 ## 4. Scaling
 
 **Scaling** means **changing the range of your data values** — so that all features (columns) are on a  **similar scale** .
 
 Scaling makes **big numbers smaller** and  **small numbers bigger** , so they are all in a similar range.
+
+## 5. Logistic Regression
+
+**Logistic Regression** is a machine learning algorithm used to **predict two possible outcomes**

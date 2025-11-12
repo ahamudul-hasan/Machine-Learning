@@ -4,4 +4,4 @@ matplotlib
 seaborn
 scikit-learn
 
-# python -m pip install -r equirements.txt
+# python -m pip install -r requirements.txt
