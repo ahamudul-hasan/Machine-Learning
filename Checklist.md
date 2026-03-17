@@ -109,7 +109,7 @@
 
 #### 4.6 Advanced Transformations ⏳ (Not Started)
 
-- [ ] **Datetime Features** - Temporal data extraction
+- [X] **Datetime Features** - Temporal data extraction
 - [ ] **Complete Case Analysis** - Handling missing data patterns
 - [ ] **Missing Data Imputation**
   - [ ] **Univariate Methods**
