@@ -216,7 +216,7 @@ predictions = pipe.predict(X_test)
 | Pipelines | `train.csv` (Titanic) | 891 × 11 | Classification pipeline |
 | Power_Transformer | `concrete_data.csv` | 1,030 × 8 | Strength regression |
 
-All datasets are located in `../../../CSV/` directory.
+All datasets are located in `../../../Data/` directory.
 
 ---
 
@@ -225,7 +225,7 @@ All datasets are located in `../../../CSV/` directory.
 ### `FileNotFoundError` when loading data
 ```python
 # Check your notebook location, then adjust path accordingly
-# From: 3_Transformer/ → CSV/ requires: ../../../CSV/
+# From: 3_Transformer/ → Data/ requires: ../../../Data/
 ```
 
 ### Box-Cox fails with zero/negative values
