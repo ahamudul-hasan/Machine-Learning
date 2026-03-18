@@ -193,7 +193,7 @@
 
 ## 🎯 Key Resources
 
-- 📁 **CSV Data**: `/CSV/` directory
+- 📁 **CSV Data**: `/Data/` directory
 - 📓 **Notebooks**: Throughout project structure
 - 📄 **Documentation**: `README.md`, `Info.md`
 

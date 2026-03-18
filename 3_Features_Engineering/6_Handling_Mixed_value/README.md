@@ -218,7 +218,7 @@ import matplotlib.pyplot as plt
 #### **Step 2: Load Data**
 
 ```python
-df = pd.read_csv('../../CSV/data_science_job.csv')
+df = pd.read_csv('../../Data/data_science_job.csv')
 df.head()
 ```
 
@@ -226,7 +226,7 @@ df.head()
 
 - Loads the CSV file into a pandas DataFrame
 - `head()` shows first 5 rows to inspect the data structure
-- Path uses relative reference (`../../CSV/`) to locate the data folder
+- Path uses relative reference (`../../Data/`) to locate the data folder
 
 **Output:** First few rows of the dataset
 

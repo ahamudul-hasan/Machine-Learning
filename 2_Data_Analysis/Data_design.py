@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from mlxtend.plotting import plot_decision_regions
 
-df = pd.read_csv('CSV/placement.csv')
+df = pd.read_csv('Data/placement.csv')
 
 print(df)
 
