@@ -110,10 +110,10 @@
 #### 4.6 Advanced Transformations ⏳ (Not Started)
 
 - [X] **Datetime Features** - Temporal data extraction
-- [ ] **Complete Case Analysis** - Handling missing data patterns
-- [ ] **Missing Data Imputation**
-  - [ ] **Univariate Methods**
-    - [ ] Numerical: Mean, Median, Arbitrary imputation
+- [X] **Complete Case Analysis** - Handling missing data patterns
+- [X] **Missing Data Imputation**
+  - [X] **Univariate Methods**
+    - [X] Numerical: Mean, Median, Arbitrary imputation
     - [ ] Categorical: Frequent value, Missing indicator
     - [ ] Random & Automatic imputation
   - [ ] **Multivariate Methods**
