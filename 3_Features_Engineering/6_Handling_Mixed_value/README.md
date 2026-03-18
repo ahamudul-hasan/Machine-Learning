@@ -3,12 +3,14 @@
 ---
 
 ## 📑 Table of Contents
+
 1. [Handling Missing Data](#-handling-missing-data)
 2. [Complete Case Analysis (CCA)](#-complete-case-analysis-cca)
 3. [Assumptions for CCA](#-assumptions-for-cca)
 4. [Advantages and Disadvantages](#-advantages-and-disadvantages-of-cca)
 5. [When to Use CCA?](#-when-to-use-cca)
 6. [Code Explanation](#-code-explanation)
+7. 
 
 ---
 
@@ -27,6 +29,7 @@ Missing data refers to the absence of values for certain observations in a datas
 ### Why is it Important?
 
 Missing data can:
+
 - ❌ Reduce the statistical power of analyses
 - ❌ Introduce bias in results
 - ❌ Lead to misleading conclusions
@@ -34,12 +37,12 @@ Missing data can:
 
 ### Common Approaches to Handle Missing Data
 
-| Approach | Description | Best For |
-|----------|-------------|----------|
-| **Deletion** | Remove rows/columns with missing values | Small amount of missing data |
-| **Imputation** | Fill missing values with estimates | When data is MCAR or MAR |
-| **Prediction** | Use models to predict missing values | Complex relationships in data |
-| **Domain Knowledge** | Fill based on expert judgment | Critical values with context |
+| Approach                   | Description                             | Best For                      |
+| -------------------------- | --------------------------------------- | ----------------------------- |
+| **Deletion**         | Remove rows/columns with missing values | Small amount of missing data  |
+| **Imputation**       | Fill missing values with estimates      | When data is MCAR or MAR      |
+| **Prediction**       | Use models to predict missing values    | Complex relationships in data |
+| **Domain Knowledge** | Fill based on expert judgment           | Critical values with context  |
 
 ---
 
@@ -92,20 +95,24 @@ clean_data = data.dropna(subset=['column1', 'column2'])
 ## 📋 Assumptions for CCA
 
 ### 1. **MCAR: Missing Completely at Random**
+
 - ✅ Missing values are completely random
 - The probability of being missing is independent of any variable
 - **Example**: A data entry person randomly skips some entries by mistake
 
 ### 2. **Data is Sufficiently Complete**
+
 - ✅ The proportion of missing data is small (typically < 5%)
 - You have enough complete cases to maintain statistical power
 - **Rule of thumb**: At least 30-50 complete observations remain
 
 ### 3. **No Important Information Loss**
+
 - ✅ The removed rows don't contain critical information
 - The subset of complete cases represents the population reasonably well
 
 ### 4. **Independence Assumption**
+
 - ✅ Missingness is independent of the outcome variable
 - The study design doesn't systematically exclude certain groups
 
@@ -115,23 +122,23 @@ clean_data = data.dropna(subset=['column1', 'column2'])
 
 ### ✅ **Advantages**
 
-| Advantage | Explanation |
-|-----------|-------------|
-| **Simplicity** | Easy to understand and implement - just remove incomplete rows |
-| **No Assumptions** | Doesn't require complex statistical models or assumptions about missing data mechanism |
-| **Valid Results** | If MCAR assumption holds, results are unbiased |
-| **Preserves Data** | No data imputation means no artificial values introduced |
-| **Complete Information** | Working with genuine, observed data only |
+| Advantage                      | Explanation                                                                            |
+| ------------------------------ | -------------------------------------------------------------------------------------- |
+| **Simplicity**           | Easy to understand and implement - just remove incomplete rows                         |
+| **No Assumptions**       | Doesn't require complex statistical models or assumptions about missing data mechanism |
+| **Valid Results**        | If MCAR assumption holds, results are unbiased                                         |
+| **Preserves Data**       | No data imputation means no artificial values introduced                               |
+| **Complete Information** | Working with genuine, observed data only                                               |
 
 ### ❌ **Disadvantages**
 
-| Disadvantage | Explanation |
-|--------------|-------------|
-| **Data Loss** | Can significantly reduce sample size, losing statistical power |
-| **Reduced Precision** | Smaller sample = larger confidence intervals = less precise estimates |
-| **Bias Risk** | If missing data is not MCAR, results become biased |
-| **Inefficient** | Wastes information that could be recovered through imputation |
-| **Not Suitable for MAR/MNAR** | Fails when missingness depends on observed or unobserved variables |
+| Disadvantage                        | Explanation                                                           |
+| ----------------------------------- | --------------------------------------------------------------------- |
+| **Data Loss**                 | Can significantly reduce sample size, losing statistical power        |
+| **Reduced Precision**         | Smaller sample = larger confidence intervals = less precise estimates |
+| **Bias Risk**                 | If missing data is not MCAR, results become biased                    |
+| **Inefficient**               | Wastes information that could be recovered through imputation         |
+| **Not Suitable for MAR/MNAR** | Fails when missingness depends on observed or unobserved variables    |
 
 ### Visual Comparison
 
@@ -156,22 +163,23 @@ Statistical Impact:
 ### ✅ **USE CCA When:**
 
 1. **Small Amount of Missing Data**
+
    - Less than 5% of total data is missing
    - Loss of a few rows won't impact analysis
-
 2. **Data is MCAR**
+
    - Missing values are truly random
    - No systematic pattern to missingness
-
 3. **Sufficient Sample Size**
+
    - Even after removing incomplete cases, enough data remains
    - Statistical power is maintained
-
 4. **Missing Data is Scattered**
+
    - Missing values are spread across different variables
    - Not concentrated in a few columns
-
 5. **Data Quality is Priority**
+
    - You only want to work with verified, complete observations
    - Better to have less data than inaccurate conclusions
 
@@ -215,6 +223,7 @@ df.head()
 ```
 
 **What it does:**
+
 - Loads the CSV file into a pandas DataFrame
 - `head()` shows first 5 rows to inspect the data structure
 - Path uses relative reference (`../../CSV/`) to locate the data folder
@@ -230,12 +239,14 @@ df.head()
 ```
 
 **What it does:**
+
 1. `df.isnull()` - Creates a boolean DataFrame (True where values are missing)
 2. `.mean()` - Calculates proportion of missing values per column
 3. `* 100` - Converts to percentage
 4. `.astype(str) + ' %'` - Formats as percentage string
 
 **Example Output:**
+
 ```
 age                    0.0 %
 salary                 2.5 %
@@ -253,6 +264,7 @@ df.shape
 ```
 
 **What it does:**
+
 - Returns tuple (number of rows, number of columns)
 - Helps understand dataset size before and after CCA
 
@@ -269,6 +281,7 @@ cols
 ```
 
 **What it does:**
+
 1. Filters columns that have:
    - Missing data > 0% (at least some missing values)
    - Missing data < 5% (not too much missing)
@@ -287,10 +300,12 @@ df[cols].sample(5)
 ```
 
 **What it does:**
+
 - Shows 5 random rows from columns with missing data
 - Helps visualize the missing values
 
 **Example Output:**
+
 ```
       salary    experience    education_level
 12845   NULL      3           Bachelors
@@ -307,10 +322,12 @@ df['education_level'].value_counts()
 ```
 
 **What it does:**
+
 - Shows frequency of each category in the column
 - Helps understand data characteristics
 
 **Example Output:**
+
 ```
 Bachelors      8500
 Masters        5200
@@ -327,6 +344,7 @@ len(df[cols].dropna()) / len(df)
 ```
 
 **What it does:**
+
 1. `df[cols].dropna()` - Removes rows with any missing in selected columns
 2. `len()` - Counts remaining rows
 3. Divides by total to get retention rate
@@ -343,11 +361,13 @@ df.shape, new_df.shape
 ```
 
 **What it does:**
+
 1. `.dropna()` - **Removes all rows with any missing values**
 2. Creates new dataset with only complete cases
 3. Compares shapes before and after
 
 **Example Output:**
+
 ```
 Original: (19158, 3)
 After CCA: (17585, 3)
@@ -364,6 +384,7 @@ plt.show()
 ```
 
 **What it does:**
+
 - Creates histograms for all numerical columns
 - `bins=50` - Divides data into 50 bars
 - `density=True` - Normalizes to probability density
@@ -388,6 +409,7 @@ new_df['training_hours'].hist(bins=50, ax=ax, color='green',
 ```
 
 **What it does:**
+
 1. Creates overlaid histograms
 2. **Red** = Original dataset (with missing values)
 3. **Green** = Dataset after CCA (complete cases only)
@@ -411,10 +433,12 @@ new_df['training_hours'].plot.density(color='green')
 ```
 
 **What it does:**
+
 - Creates smooth distribution curves instead of histograms
 - Easier to compare general trend shapes
 
 **Interpretation:**
+
 - If red and green curves are similar → CCA didn't introduce bias ✓
 - If they differ significantly → Missing data was not MCAR ⚠️
 
@@ -433,12 +457,14 @@ temp
 ```
 
 **What it does:**
+
 1. Creates proportion distributions for before/after CCA
 2. `value_counts()` - Counts each category
 3. Divides by total length for proportions
 4. Side-by-side comparison in table format
 
 **Example Output:**
+
 ```
                 original    cca
 Bachelors         0.445    0.444
@@ -448,6 +474,7 @@ PhD               0.084    0.084
 ```
 
 **Interpretation:**
+
 - If proportions are nearly identical → CCA maintained data structure ✓
 - If they differ → Different groups have different missing rates ⚠️
 
@@ -455,13 +482,13 @@ PhD               0.084    0.084
 
 ## 🎓 Key Takeaways
 
-| Concept | Summary |
-|---------|---------|
-| **CCA** | Remove rows with any missing values |
-| **When** | Use when <5% missing and MCAR assumption holds |
-| **Pros** | Simple, no bias if MCAR |
-| **Cons** | Loss of data, reduced statistical power |
-| **Check** | Verify distributions before vs. after CCA |
+| Concept         | Summary                                        |
+| --------------- | ---------------------------------------------- |
+| **CCA**   | Remove rows with any missing values            |
+| **When**  | Use when <5% missing and MCAR assumption holds |
+| **Pros**  | Simple, no bias if MCAR                        |
+| **Cons**  | Loss of data, reduced statistical power        |
+| **Check** | Verify distributions before vs. after CCA      |
 
 ---
 
