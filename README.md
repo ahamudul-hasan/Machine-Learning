@@ -19,125 +19,18 @@
 
 | # | Section | Key Topics |
 |:-:|---------|------------|
-| 1 | [🏗️ Data Structure](#1-%EF%B8%8F-data-structure) | NumPy · Pandas |
-| 2 | [📊 Data Visualization](#2--data-visualization) | Matplotlib · Seaborn · Plotly |
-| 3 | [📥 Data Gathering](#3--data-gathering) | CSV · JSON · API · Web Scraping |
-| 4 | [🔍 Data Analysis](#4--data-analysis) | Understanding Data · EDA |
-| 5 | [⚙️ Features Engineering](#5-%EF%B8%8F-features-engineering) | Scaling · Encoding · Imputation · Outliers |
-| 6 | [🤖 Models](#6--models) | Supervised · Unsupervised |
-| 7 | [📏 Model Evaluation & Metrics](#7--model-evaluation--metrics) | Classification · Regression · Cross-Validation |
-| 8 | [🔧 Hyperparameter Tuning](#8--hyperparameter-tuning) | Grid Search · Random · Bayesian |
-| 9 | [🧠 Neural Networks & Deep Learning](#9--neural-networks--deep-learning) | ANN · CNN · RNN · Frameworks |
-| 10 | [🚀 Model Deployment](#10--model-deployment) | APIs · Docker · Cloud · MLOps |
+| 1 | [📥 Data Gathering](#3--data-gathering) | CSV · JSON · API · Web Scraping |
+| 2 | [🔍 Data Analysis](#4--data-analysis) | Understanding Data · EDA |
+| 3 | [⚙️ Features Engineering](#5-%EF%B8%8F-features-engineering) | Scaling · Encoding · Imputation · Outliers |
+| 4 | [🤖 Models](#6--models) | Supervised · Unsupervised |
+| 5 | [📏 Model Evaluation & Metrics](#7--model-evaluation--metrics) | Classification · Regression · Cross-Validation |
+| 6 | [🔧 Hyperparameter Tuning](#8--hyperparameter-tuning) | Grid Search · Random · Bayesian |
+| 7 | [🧠 Neural Networks & Deep Learning](#9--neural-networks--deep-learning) | ANN · CNN · RNN · Frameworks |
+| 8 | [🚀 Model Deployment](#10--model-deployment) | APIs · Docker · Cloud · MLOps |
 
 ---
 
-## 1. 🏗️ Data Structure
-
-<table>
-<tr><th colspan="2">📐 NumPy</th></tr>
-<tr><th>#</th><th>Topic</th></tr>
-<tr><td>1.1</td><td>Basic</td></tr>
-<tr><td>1.2</td><td>Advanced</td></tr>
-</table>
-
-<table>
-<tr><th colspan="2">🐼 Pandas</th></tr>
-<tr><th>#</th><th>Topic</th></tr>
-<tr><td>2.1</td><td>Series</td></tr>
-<tr><td>2.2</td><td>DataFrame</td></tr>
-</table>
-
----
-
-## 2. 📊 Data Visualization
-
-<details>
-<summary><strong>📈 Matplotlib</strong></summary>
-<br>
-
-| # | Analysis Type | Chart |
-|:-:|--------------|-------|
-| 1 | Univariate | Histogram |
-| 2 | Univariate & Bivariate | Pie Chart |
-| 3 | Bivariate & Multivariate | 2D Line Plot |
-| 4 | Bivariate & Multivariate | 3D Line Plot |
-| 5 | Bivariate & Multivariate | Scatter Plot |
-| 6 | Bivariate & Multivariate | 3D Scatter Plot |
-| 7 | Bivariate & Multivariate | 3D Surface Plot |
-| 8 | Bivariate & Multivariate | Contour Plots |
-| 9 | Bivariate & Multivariate | Heatmap |
-| 10 | Bivariate & Multivariate | Bar Chart |
-| 11 | Layout | Subplot |
-
-</details>
-
-<details>
-<summary><strong>🎨 Seaborn</strong></summary>
-<br>
-
-**Relation Plots**
-
-| # | Chart |
-|:-:|-------|
-| 1 | Scatter Plot |
-| 2 | Facet Plot |
-| 3 | Line Plot |
-
-**Distribution Plots**
-
-| # | Chart |
-|:-:|-------|
-| 1 | Histogram |
-| 2 | Facet Histogram |
-| 3 | Bivariate Histogram |
-| 4 | KDE Plot |
-| 5 | Bivariate KDE Plot |
-| 6 | Rug Plot |
-
-**Categorical Plots**
-
-| # | Category | Chart |
-|:-:|----------|-------|
-| 1 | Scatter — Bivariate | Stripplot |
-| 2 | Scatter — Bivariate | Swarmplot |
-| 3 | Distribution — Univariate | Boxplot |
-| 4 | Distribution — Univariate | Violinplot |
-| 5 | Estimate — Central Tendency | Barplot |
-| 6 | Estimate — Central Tendency | Pointplot |
-| 7 | Estimate — Central Tendency | Countplot |
-
-**Matrix Plots**
-
-| # | Chart |
-|:-:|-------|
-| 1 | Heatmap |
-| 2 | Clustermap |
-
-**Multi-Plots**
-
-| # | Chart |
-|:-:|-------|
-| 1 | Regression Plot |
-| 2 | Facet Plot |
-| 3 | Joint Plot |
-| 4 | Pair Plot |
-
-</details>
-
-<details>
-<summary><strong>📉 Plotly</strong></summary>
-<br>
-
-| # | Topic |
-|:-:|-------|
-| 1 | Interactive Charts |
-
-</details>
-
----
-
-## 3. 📥 Data Gathering
+## 1. 📥 Data Gathering
 
 | # | Source | Method |
 |:-:|--------|--------|
@@ -148,7 +41,7 @@
 
 ---
 
-## 4. 🔍 Data Analysis
+## 2. 🔍 Data Analysis
 
 | # | Topic | Description |
 |:-:|-------|-------------|
@@ -158,10 +51,10 @@
 
 ---
 
-## 5. ⚙️ Features Engineering
+## 3. ⚙️ Features Engineering
 
 <details>
-<summary><strong>5.1 — Feature Transformation</strong></summary>
+<summary><strong>3.1 — Feature Transformation</strong></summary>
 <br>
 
 **📏 Scaling**
@@ -207,7 +100,7 @@
 </details>
 
 <details>
-<summary><strong>5.2 — Missing Data Imputation</strong></summary>
+<summary><strong>3.2 — Missing Data Imputation</strong></summary>
 <br>
 
 **Univariate — Numerical**
@@ -236,7 +129,7 @@
 </details>
 
 <details>
-<summary><strong>5.3 — Outlier Detection</strong></summary>
+<summary><strong>3.3 — Outlier Detection</strong></summary>
 <br>
 
 | # | Technique | Variant |
@@ -249,7 +142,7 @@
 </details>
 
 <details>
-<summary><strong>5.4 — Other Transformations</strong></summary>
+<summary><strong>3.4 — Other Transformations</strong></summary>
 <br>
 
 | # | Topic |
@@ -264,9 +157,9 @@
 
 ---
 
-## 6. 🤖 Models
+## 4. 🤖 Models
 
-### 6.1 Supervised Learning
+### 4.1 Supervised Learning
 
 <details>
 <summary><strong>📉 Gradient Descent</strong></summary>
@@ -405,7 +298,7 @@
 
 </details>
 
-### 6.2 Unsupervised Learning
+### 4.2 Unsupervised Learning
 
 | # | Algorithm |
 |:-:|-----------|
@@ -415,10 +308,10 @@
 
 ---
 
-## 7. 📏 Model Evaluation & Metrics
+## 5. 📏 Model Evaluation & Metrics
 
 <details>
-<summary><strong>7.1 Classification Metrics</strong></summary>
+<summary><strong>5.1 Classification Metrics</strong></summary>
 <br>
 
 | Metric | Description |
@@ -436,7 +329,7 @@
 </details>
 
 <details>
-<summary><strong>7.2 Regression Metrics</strong></summary>
+<summary><strong>5.2 Regression Metrics</strong></summary>
 <br>
 
 | Metric | Formula |
@@ -451,7 +344,7 @@
 </details>
 
 <details>
-<summary><strong>7.3 Cross-Validation</strong></summary>
+<summary><strong>5.3 Cross-Validation</strong></summary>
 <br>
 
 | Method | Description |
@@ -465,7 +358,7 @@
 </details>
 
 <details>
-<summary><strong>7.4 Bias-Variance Tradeoff & Learning Curves</strong></summary>
+<summary><strong>5.4 Bias-Variance Tradeoff & Learning Curves</strong></summary>
 <br>
 
 | Concept | Description |
@@ -479,7 +372,7 @@
 
 ---
 
-## 8. 🔧 Hyperparameter Tuning
+## 6. 🔧 Hyperparameter Tuning
 
 | # | Method | Description |
 |:-:|--------|-------------|
@@ -491,7 +384,7 @@
 
 ---
 
-## 9. 🧠 Neural Networks & Deep Learning
+## 7. 🧠 Neural Networks & Deep Learning
 
 <details>
 <summary><strong>9.1 Fundamentals</strong></summary>
@@ -538,7 +431,7 @@
 
 ---
 
-## 10. 🚀 Model Deployment
+## 8. 🚀 Model Deployment
 
 <details>
 <summary><strong>10.1 Saving & Loading Models</strong></summary>
