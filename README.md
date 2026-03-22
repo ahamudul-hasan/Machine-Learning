@@ -387,7 +387,7 @@
 ## 7. 🧠 Neural Networks & Deep Learning
 
 <details>
-<summary><strong>9.1 Fundamentals</strong></summary>
+<summary><strong>7.1 Fundamentals</strong></summary>
 <br>
 
 | Concept | Description |
@@ -404,7 +404,7 @@
 </details>
 
 <details>
-<summary><strong>9.2 Architectures</strong></summary>
+<summary><strong>7.2 Architectures</strong></summary>
 <br>
 
 | Architecture | Variants | Use Case |
@@ -417,7 +417,7 @@
 </details>
 
 <details>
-<summary><strong>9.3 Regularization & Frameworks</strong></summary>
+<summary><strong>7.3 Regularization & Frameworks</strong></summary>
 <br>
 
 **Regularization Techniques:** Dropout · Batch Normalization · Weight Initialization (Xavier, He) · Early Stopping · L1 / L2
@@ -434,7 +434,7 @@
 ## 8. 🚀 Model Deployment
 
 <details>
-<summary><strong>10.1 Saving & Loading Models</strong></summary>
+<summary><strong>8.1 Saving & Loading Models</strong></summary>
 <br>
 
 | Method | Library | Use Case |
@@ -447,7 +447,7 @@
 </details>
 
 <details>
-<summary><strong>10.2 Serving Models as APIs</strong></summary>
+<summary><strong>8.2 Serving Models as APIs</strong></summary>
 <br>
 
 | Framework | Description |
@@ -459,7 +459,7 @@
 </details>
 
 <details>
-<summary><strong>10.3 Containerization & Cloud</strong></summary>
+<summary><strong>8.3 Containerization & Cloud</strong></summary>
 <br>
 
 | Platform | Service |
@@ -472,7 +472,7 @@
 </details>
 
 <details>
-<summary><strong>10.4 Monitoring & MLOps</strong></summary>
+<summary><strong>8.4 Monitoring & MLOps</strong></summary>
 <br>
 
 | Concept | Tool |
