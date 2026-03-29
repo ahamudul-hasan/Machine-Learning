@@ -48,6 +48,7 @@ scipy
 seaborn
 six
 stack-data
+statsmodels
 threadpoolctl
 tornado
 traitlets
