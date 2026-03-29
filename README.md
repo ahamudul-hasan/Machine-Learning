@@ -162,23 +162,6 @@
 ### 4.1 Supervised Learning
 
 <details>
-<summary><strong>📉 Gradient Descent</strong></summary>
-<br>
-
-| # | Algorithm | Implementation |
-|:-:|-----------|:-------------:|
-| 1 | Gradient Descent — Single Column | Built-in |
-| 2 | Gradient Descent — Single Column | Own Class |
-| 3 | Batch Gradient Descent | Built-in |
-| 4 | Batch Gradient Descent | Own Class |
-| 5 | Stochastic Gradient Descent | Built-in |
-| 6 | Stochastic Gradient Descent | Own Class |
-| 7 | Mini-Batch Gradient Descent | Built-in |
-| 8 | Mini-Batch Gradient Descent | Own Class |
-
-</details>
-
-<details>
 <summary><strong>📐 Linear Regression</strong></summary>
 <br>
 
@@ -196,6 +179,24 @@
 | 10 | Lasso Regression | — |
 
 </details>
+
+<details>
+<summary><strong>📉 Gradient Descent</strong></summary>
+<br>
+
+| # | Algorithm | Implementation |
+|:-:|-----------|:-------------:|
+| 1 | Gradient Descent — Single Column | Built-in |
+| 2 | Gradient Descent — Single Column | Own Class |
+| 3 | Batch Gradient Descent | Built-in |
+| 4 | Batch Gradient Descent | Own Class |
+| 5 | Stochastic Gradient Descent | Built-in |
+| 6 | Stochastic Gradient Descent | Own Class |
+| 7 | Mini-Batch Gradient Descent | Built-in |
+| 8 | Mini-Batch Gradient Descent | Own Class |
+
+</details>
+
 
 <details>
 <summary><strong>🔀 Logistic Regression</strong></summary>
