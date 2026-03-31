@@ -4,7 +4,7 @@
 
 > A structured, end-to-end journey through Machine Learning — from data fundamentals to production deployment.
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.14-blue?logo=python&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-2.4.2-013243?logo=numpy)
 ![Pandas](https://img.shields.io/badge/Pandas-3.0.1-150458?logo=pandas)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-3.10.8-11557c?logo=matplotlib&logoColor=white)
