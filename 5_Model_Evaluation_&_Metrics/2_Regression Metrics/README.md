@@ -1,4 +1,4 @@
-# Regression Metrics: MSE, MAE, and RMSE
+# Regression Metrics: MSE, MAE and RMSE
 
 This guide explains the three most important metrics used to evaluate regression models: Mean Squared Error (MSE), Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE).
 

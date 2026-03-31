@@ -1,4 +1,4 @@
-# Linear Regression Assumptions - Simple Explanation
+# Linear Regression Assumptions
 
 Linear regression has several key assumptions that must be checked to ensure the model is reliable and valid. Here are the 5 main assumptions:
 
