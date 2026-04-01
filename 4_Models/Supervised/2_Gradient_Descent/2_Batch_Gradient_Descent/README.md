@@ -164,6 +164,97 @@ Stochastic Gradient Descent:
 | **Simplicity** | Easy to understand | Harder due to noise |
 | **When to use** | Learning/teaching | Large real-world data |
 
+### Mathematical Differences
+
+The key mathematical difference lies in how the **gradient** is computed and how many **training examples** are used for each parameter update.
+
+#### **1. Batch Gradient Descent (BGD)**
+
+Uses **ALL** training examples to compute the gradient:
+
+$$\frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Parameter Update:**
+$$\theta_j := \theta_j - \alpha \cdot \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Updates per epoch:** 1
+
+Where:
+- $m$ = Total number of training examples
+- The sum is taken over **ALL** training samples
+- **One** update is made after processing the entire dataset
+
+#### **2. Stochastic Gradient Descent (SGD)**
+
+Uses **ONE** training example at a time to compute the gradient:
+
+$$\frac{\partial J(\theta)}{\partial \theta_j} = (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Parameter Update:**
+$$\theta_j := \theta_j - \alpha \cdot (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Updates per epoch:** $m$ (one update per training example)
+
+Where:
+- $i$ = Index of a single training example
+- **No summation** - only one sample is used
+- **Multiple** updates are made (one after each sample)
+
+#### **3. Mini-batch Gradient Descent**
+
+Uses a **small subset** (batch) of training examples:
+
+$$\frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{B} \sum_{i=1}^{B} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Parameter Update:**
+$$\theta_j := \theta_j - \alpha \cdot \frac{1}{B} \sum_{i=1}^{B} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+**Updates per epoch:** $\frac{m}{B}$
+
+Where:
+- $B$ = Batch size (typically 32, 64, or 128)
+- The sum is taken over **B training samples**
+- Updates are made multiple times, but not after every single sample
+
+#### **Side-by-Side Mathematical Comparison**
+
+| Aspect | Batch GD | Stochastic GD | Mini-batch GD |
+|--------|----------|---------------|---------------|
+| **Gradient Formula** | $\frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$ | $(h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$ | $\frac{1}{B} \sum_{i=1}^{B} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$ |
+| **Data Used** | All $m$ samples | 1 sample | $B$ samples |
+| **Denominator** | $\frac{1}{m}$ (average over all) | No averaging (single) | $\frac{1}{B}$ (average over batch) |
+| **Updates/Epoch** | 1 | $m$ | $\frac{m}{B}$ |
+| **Gradient Variance** | Low (stable) | High (noisy) | Medium (balanced) |
+
+#### **Mathematical Insight**
+
+The **denominator** in the gradient formula is crucial:
+
+- **Batch GD**: Divides by ALL samples ($m$), averaging the contribution of each sample
+  - Results in a **stable, representative gradient**
+  - Less affected by outliers or noisy individual samples
+
+- **Stochastic GD**: No division, uses gradient from **one sample only**
+  - Results in a **noisy, unreliable gradient**
+  - One sample might not be representative of the overall trend
+
+- **Mini-batch GD**: Divides by batch size ($B$), balancing stability and responsiveness
+  - Results in a **reasonably stable gradient** using a small representative sample
+  - Good trade-off between accuracy and computation
+
+#### **Gradient Quality Example**
+
+For a dataset with 1000 samples, suppose the true optimal gradient at point $\theta$ is 0.5:
+
+| Method | Actual Gradient | Variance | Stability |
+|--------|-----------------|----------|-----------|
+| **Batch GD** | ~0.500 | Very Low | ✅ Highly stable |
+| **SGD (sample 1)** | 0.150 | High | ❌ Very noisy |
+| **SGD (sample 2)** | 0.890 | High | ❌ Very noisy |
+| **Mini-batch (32)** | ~0.485 | Low | ✅ Stable |
+
+Notice how Batch GD gives an accurate gradient reflecting all data, while individual SGD samples can be far off target.
+
 ### Real-World Analogy 🎯
 
 **Person trying to find the lowest point in a valley (minimum error):**
