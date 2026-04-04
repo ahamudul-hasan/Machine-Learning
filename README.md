@@ -173,10 +173,6 @@
 | 4 | Multiple Linear Regression | Own Class |
 | 5 | Polynomial Regression | Built-in |
 | 6 | Polynomial Regression | Own Class |
-| 7 | Ridge Regression | Built-in |
-| 8 | Ridge Regression | Own Class (1D) |
-| 9 | Ridge Regression | Own Class (ND) |
-| 10 | Lasso Regression | — |
 
 </details>
 
@@ -194,6 +190,20 @@
 | 6 | Stochastic Gradient Descent | Own Class |
 | 7 | Mini-Batch Gradient Descent | Built-in |
 | 8 | Mini-Batch Gradient Descent | Own Class |
+
+</details>
+
+<details>
+<summary><strong>🧷 Regularization</strong></summary>
+<br>
+
+| # | Algorithm | Implementation |
+|:-:|-----------|:-------------:|
+| 1 | Ridge Regression | Built-in |
+| 2 | Ridge Regression | Own Class (1D) |
+| 3 | Ridge Regression | Own Class (ND) |
+| 4 | Lasso Regression | Built-in |
+| 5 | ElasticNet Regression | Built-in |
 
 </details>
 
