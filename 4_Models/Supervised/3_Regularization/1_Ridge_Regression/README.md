@@ -90,6 +90,46 @@ Where $I$ is the identity matrix.
 - Adding $\lambda I$ to $X^T X$ ensures the matrix is invertible even if features are correlated.
 - It also mathematically enforces smaller weights.
 
+### Ridge Regression in N-Dimensions (General Case)
+
+When your dataset has many input features, Ridge works in exactly the same way, just in matrix form.
+
+Let:
+- $X \in \mathbb{R}^{n \times p}$ = feature matrix with $n$ samples and $p$ features
+- $y \in \mathbb{R}^{n \times 1}$ = target vector
+- $\theta \in \mathbb{R}^{p \times 1}$ = coefficient vector
+
+Prediction equation:
+
+$$
+\hat{y} = X\theta
+$$
+
+Ridge objective in full vector form:
+
+$$
+J(\theta) = \frac{1}{n}\lVert y - X\theta \rVert_2^2 + \lambda\lVert \theta \rVert_2^2
+$$
+
+Equivalent closed-form solution:
+
+$$
+w = (X^T X + \lambda I_p)^{-1}X^T y
+$$
+
+Here, $w$ and $\theta$ both represent the coefficient vector.
+
+Where $I_p$ is a $p \times p$ identity matrix.
+
+Intuition in N-dimensions:
+- Each feature coefficient is one axis in a $p$-dimensional parameter space.
+- Ridge adds a spherical constraint through $\lVert\theta\rVert_2^2$, so the optimizer prefers smaller overall coefficient magnitude.
+- This is why Ridge is especially helpful when $p$ is large or when features are strongly correlated.
+
+Note:
+- In practice, the intercept term is usually not penalized.
+- Feature scaling is important, so regularization treats all feature dimensions fairly.
+
 ---
 
 ## 6) Regularization Strength ($\lambda$)
