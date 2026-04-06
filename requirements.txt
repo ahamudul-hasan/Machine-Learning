@@ -24,6 +24,7 @@ jupyter_core
 kiwisolver
 matplotlib
 matplotlib-inline
+mlxtend
 narwhals
 nbformat
 nest-asyncio
