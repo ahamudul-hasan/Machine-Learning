@@ -557,3 +557,62 @@ Gap = 0.04 (much better!)
 ---
 
 Built for quick revision: focus on the cost function, λ tuning, and the bias-variance trade-off.
+
+---
+
+## 15) 5 Key Points of Ridge Regression
+
+This section matches the notebook "5 Key Points - Ridge Regression" in simple words.
+
+### 1) How are coefficients affected?
+
+Ridge adds a penalty for large coefficient values, so coefficients are pulled toward 0 as alpha (λ) increases.
+
+- Low alpha: coefficients stay closer to linear regression values.
+- High alpha: coefficients become smaller and more stable.
+
+Important: Ridge usually shrinks coefficients but does not make them exactly 0.
+
+### 2) Higher coefficients are affected more
+
+The penalty in Ridge is based on squared coefficient size.
+
+$$
+\lambda \sum_j w_j^2
+$$
+
+Because of the square term, large coefficients contribute much more to the penalty than small ones.
+So, bigger coefficients shrink faster when alpha increases.
+
+### 3) Impact on bias and variance
+
+As alpha increases:
+
+- Bias increases: model becomes simpler, so it may miss some true patterns.
+- Variance decreases: model becomes less sensitive to training noise.
+
+This is the core bias-variance trade-off in Ridge. A good alpha gives a balance where test error is lowest.
+
+### 4) Effect of regularization on loss function
+
+Ridge objective is:
+
+$$
+J(w) = \text{MSE} + \lambda \sum_j w_j^2
+$$
+
+Compared with plain linear regression, Ridge adds a "cost" for using large weights.
+This changes the optimization landscape and pushes the best solution toward smaller coefficients.
+
+In short: Ridge accepts a little extra training error to gain better generalization.
+
+### 5) Why is it called "Ridge" regression?
+
+Geometrically, least squares creates error contours, and the L2 constraint creates a circular/spherical boundary.
+The constrained optimum often lies on a curved boundary that looks like a ridge in parameter space.
+
+Another intuition from plotting regularized loss: as lambda changes, the minimum shifts along a smooth raised path (ridge-like shape).
+
+So the name comes from the geometry of adding the L2 penalty.
+
+---
