@@ -4,8 +4,9 @@
 1. [Theoretical Concept](#theoretical-concept)
 2. [Why Use Lasso Regression](#why-use-lasso-regression)
 3. [Mathematical Explanation](#mathematical-explanation)
-4. [Limitations](#limitations)
-5. [When to Use Lasso](#when-to-use-lasso)
+4. [4 Key Practical Points](#4-key-practical-points)
+5. [Limitations](#limitations)
+6. [When to Use Lasso](#when-to-use-lasso)
 
 ---
 
@@ -137,6 +138,48 @@ $$\sum_{j=1}^{n} |w_j| \leq t$$
 Where $||w||_1 = \sum_{j=1}^{n} |w_j|$ is the L1 norm
 
 **Interpretation:** Find coefficients that minimize error while keeping the sum of absolute values of coefficients below a threshold.
+
+---
+
+## 4 Key Practical Points
+
+### 1. How are coefficients affected?
+As regularization strength ($\lambda$ or `alpha`) increases, Lasso shrinks coefficients toward zero. For small values of `alpha`, most coefficients remain non-zero but reduced in magnitude. For larger values, many coefficients become exactly zero.
+
+In practice:
+- `alpha = 0` behaves like ordinary linear regression (no L1 penalty)
+- Small `alpha` values reduce overfitting while keeping most predictors
+- Large `alpha` values produce sparse models by removing weak predictors
+
+### 2. Higher coefficients are affected more
+Features with larger absolute coefficients typically experience stronger shrinkage as `alpha` increases. While all coefficients are penalized by the L1 term, less important features usually hit zero first, and strong features survive longer.
+
+In practice:
+- Coefficient paths show progressive shrinkage as `alpha` grows
+- Weak predictors are eliminated early
+- Dominant predictors remain non-zero until stronger regularization is applied
+
+### 3. Impact on bias and variance
+Increasing regularization generally increases bias and decreases variance. This is the core bias-variance trade-off:
+- Low `alpha`: low bias, high variance (risk of overfitting)
+- Moderate `alpha`: balanced bias and variance (often best generalization)
+- High `alpha`: high bias, low variance (risk of underfitting)
+
+The best `alpha` is usually where expected prediction error is minimized, not where bias or variance alone is minimized.
+
+### 4. Effect of regularization on loss function
+Lasso adds an L1 penalty to the ordinary loss:
+
+$$
+J(w) = \text{MSE}(w) + \lambda \sum_{j=1}^{n} |w_j|
+$$
+
+As $\lambda$ increases, the optimizer prefers smaller coefficients, shifting the minimum of the total objective toward simpler models. This is why the model becomes more stable and sparse, but can also underfit if regularization is too strong.
+
+In practice:
+- The objective curve changes with each `alpha`
+- Larger penalties flatten/shift the optimum toward smaller coefficient values
+- Excessive regularization can hurt predictive performance
 
 ---
 
