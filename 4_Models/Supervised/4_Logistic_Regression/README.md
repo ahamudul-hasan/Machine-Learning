@@ -66,6 +66,52 @@ If we have a model where $z = 2x - 1$:
 - When $x = 1$: $z = 1$, $\sigma(1) \approx 0.73$ (73% probability of class 1)
 - When $x = 0.5$: $z = 0$, $\sigma(0) = 0.5$ (50% probability, decision boundary)
 
+## The Loss Function in Matrix Form
+
+Logistic regression is trained by minimizing a loss function that measures how far the predicted probabilities are from the true labels. For binary classification, this is usually the binary cross-entropy loss.
+
+### Matrix Notation
+
+For a dataset with $m$ training examples:
+
+$$
+\mathbf{z} = X\beta
+$$
+
+$$
+\hat{\mathbf{y}} = \sigma(X\beta)
+$$
+
+Where:
+- $X$ is the feature matrix with shape $m \times (n + 1)$
+- $\beta$ is the parameter vector with shape $(n + 1) \times 1$
+- $\hat{\mathbf{y}}$ is the vector of predicted probabilities
+- $\mathbf{y}$ is the vector of true labels, where each value is either 0 or 1
+
+### Loss Formula
+
+The average loss over all training examples is:
+
+$$
+J(\beta) = -\frac{1}{m} \left[ \mathbf{y}^T \log(\hat{\mathbf{y}}) + (\mathbf{1} - \mathbf{y})^T \log(\mathbf{1} - \hat{\mathbf{y}}) \right]
+$$
+
+### What It Means
+
+- If the true label is 1, the loss becomes small when $\hat{y}$ is close to 1.
+- If the true label is 0, the loss becomes small when $\hat{y}$ is close to 0.
+- Predictions that are very confident but wrong are penalized heavily.
+
+### Per-Sample View
+
+For a single example $i$, the loss is:
+
+$$
+\ell^{(i)}(\beta) = -y^{(i)} \log(\hat{y}^{(i)}) - (1 - y^{(i)}) \log(1 - \hat{y}^{(i)})
+$$
+
+The matrix form is just the vectorized version of this formula across all samples, which makes implementation faster and cleaner.
+
 
 ## The Perceptron Trick
 
