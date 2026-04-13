@@ -43,6 +43,125 @@ This means the model is correct 8 out of 10 times.
 
 ---
 
+## When Accuracy is Misleading ⚠️
+
+### The Problem with Accuracy
+
+Accuracy can **trick you into thinking your model is great when it's actually terrible**. This happens especially with **imbalanced datasets**.
+
+### Real Example: The Useless Model Problem
+
+Imagine you build a disease detection model with this dataset:
+- Total patients: **1000**
+- Actually have disease: **10** (1%)
+- Actually healthy: **990** (99%)
+
+#### Scenario 1: Your "Smart" Model
+
+Your model:
+- Correctly identifies 8 sick patients (TP = 8)
+- Correctly identifies 980 healthy people (TN = 980)
+- Misses 2 sick patients (FN = 2)
+- False alarms for 10 healthy people (FP = 10)
+
+```
+Accuracy = (8 + 980) / 1000 = 988 / 1000 = 98.8%
+```
+
+**Wow! 98.8% accuracy! That seems great!**
+
+#### Scenario 2: The Lazy "Useless" Model
+
+But wait... what if your model is **completely dumb** and just predicts "Everyone is healthy" for every patient?
+
+```
+Prediction: Healthy for ALL 1000 patients
+
+Accuracy = 990 / 1000 = 99%
+```
+
+**The useless model has 99% accuracy!** 😱
+
+### Why is This Happening?
+
+Because the dataset is **imbalanced**:
+- 99% of patients are healthy
+- 1% have the disease
+
+When you just predict "Healthy" for everyone, you're automatically correct 99% of the time, **even though you're not catching any sick patients!**
+
+### The Real Problem
+
+The "useless" model has:
+- ✓ 99% accuracy
+- ✗ 0 sick patients detected (caught 0 out of 10)
+- ✗ Completely useless for diagnosis
+
+Your better model has:
+- ✓ 98.8% accuracy (slightly lower)
+- ✓ Actually catches 80% of sick patients
+- ✓ Much more useful!
+
+### Another Example: Spam Detection
+
+Email dataset:
+- Total emails: **10,000**
+- Spam emails: **100** (1%)
+- Legitimate emails: **9,900** (99%)
+
+Model that just predicts "Legitimate" for everything:
+```
+Accuracy = 9,900 / 10,000 = 99%
+```
+
+**Your spam filter has 99% accuracy but catches ZERO spam emails!** 🚫
+
+### When Accuracy is Most Misleading
+
+| Scenario | Accuracy Shows | Reality Is |
+|----------|---|---|
+| **Imbalanced data** | Looks great (99%+) | Model may be useless |
+| **One class dominates** | High numbers | Model ignores minority class |
+| **Cost-sensitive problems** | Misleading | Missing rare cases is very costly |
+| **Medical diagnosis** | Deceptive | Missing diseases kills people |
+| **Fraud detection** | Deceptive | Missing fraud costs money |
+
+### How to Spot If Accuracy is Misleading
+
+Ask yourself these questions:
+
+1. **Is my data imbalanced?**
+   - Count: How many of each class do I have?
+   - If one class is much larger (>70%), be careful with accuracy
+
+2. **What happens if my model predicts the majority class only?**
+   - Calculate: What would accuracy be?
+   - If it's similar to your model's accuracy, that's a red flag!
+
+3. **Which type of error is more costly?**
+   - Missing a sick patient (Type 2 error) = Life-threatening
+   - False alarm for healthy person (Type 1 error) = Worried person
+   - These aren't equal in cost!
+
+### The Solution: Don't Use Accuracy Alone!
+
+When you have **imbalanced data** or **cost-sensitive problems**, use these metrics instead or in addition to accuracy:
+
+1. **Precision**: "When model says positive, how often is it right?"
+2. **Recall**: "Did we catch all the positive cases?"
+3. **F1-Score**: Balanced combination of precision and recall
+4. **Confusion Matrix**: See the real breakdown
+5. **ROC-AUC**: Good for imbalanced data
+6. **PR-AUC**: For highly imbalanced data
+
+### Key Takeaway
+
+**⚠️ Always check the confusion matrix before celebrating high accuracy!**
+
+High accuracy + imbalanced data = Potential trap 🪤
+
+---
+
 ## 2. Confusion Matrix
 
 ### What is a Confusion Matrix?
@@ -125,6 +244,121 @@ Once you have the confusion matrix, you can calculate many other metrics:
 - ✓ Tuning the model for specific priorities (catch more positives vs. fewer false alarms)
 
 ---
+
+## 3. Type 1 and Type 2 Errors
+
+### What Are Type 1 and Type 2 Errors?
+
+Type 1 and Type 2 errors come from **hypothesis testing** in statistics. These errors describe the two ways your model can be **wrong**:
+
+### Type 1 Error (False Positive)
+
+**Type 1 Error** = **False Positive (FP)**
+
+- **What it is**: You **reject** something that is actually **true**. Your model says "YES" when the truth is "NO".
+- **In simple terms**: A false alarm
+- **Think of it as**: Incorrectly identifying something that isn't there
+
+#### Real Examples:
+
+1. **Medical Diagnosis**
+   - Model says: "You have disease"
+   - Reality: "You don't have disease"
+   - Consequence: Unnecessary worry and treatment costs
+
+2. **Spam Detection**
+   - Model says: "This is spam"
+   - Reality: "It's a legitimate email"
+   - Consequence: You miss an important email
+
+3. **Fraud Detection**
+   - Model says: "This transaction is fraudulent"
+   - Reality: "It's a legitimate transaction"
+   - Consequence: Customer's card gets blocked unnecessarily
+
+### Type 2 Error (False Negative)
+
+**Type 2 Error** = **False Negative (FN)**
+
+- **What it is**: You **fail to reject** something that is actually **false**. Your model says "NO" when the truth is "YES".
+- **In simple terms**: A missed case
+- **Think of it as**: Failing to identify something that is there
+
+#### Real Examples:
+
+1. **Medical Diagnosis**
+   - Model says: "You don't have disease"
+   - Reality: "You do have disease"
+   - Consequence: Disease goes untreated (very dangerous!)
+
+2. **Spam Detection**
+   - Model says: "This is legitimate"
+   - Reality: "It's actually spam"
+   - Consequence: Spam reaches your inbox
+
+3. **Fraud Detection**
+   - Model says: "Transaction is legitimate"
+   - Reality: "It's actually fraudulent"
+   - Consequence: Fraud goes undetected (company loses money)
+
+### Visual Comparison
+
+| Error Type | What Happened | Prediction | Reality | Type | Severity Often |
+|---|---|---|---|---|---|
+| **Type 1 Error** | False Alarm | YES | NO | FP | Varies |
+| **Type 2 Error** | Missed Case | NO | YES | FP | Often High |
+
+### Which Error is Worse?
+
+**It depends on your problem!**
+
+#### When Type 1 Error (FP) is Worse:
+- **Spam Filters**: False positives delete important emails
+- **Fraud Alerts**: False alerts annoy customers
+- **Ads**: Showing wrong ads wastes money
+- **In general**: When false alarms are expensive or annoying
+
+#### When Type 2 Error (FN) is Worse:
+- **Medical Diagnosis**: Missing a disease can be life-threatening
+- **Security**: Missing a terrorist threat is catastrophic
+- **Defect Detection**: Missing a defective product harms customers
+- **In general**: When missing something is dangerous or costly
+
+### Example with Numbers
+
+From our disease prediction example:
+
+```
+                  Predicted Healthy    Predicted Sick
+Actually Healthy         85                  10  ← Type 1 Errors (FP)
+Actually Sick             5  ← Type 2 Errors (FN)    80
+```
+
+- **Type 1 Errors = 10**: 10 healthy people incorrectly told they're sick
+- **Type 2 Errors = 5**: 5 sick people incorrectly told they're healthy
+
+### Controlling Type 1 and Type 2 Errors
+
+You can adjust your model to reduce one type of error, but **increasing one usually increases the other**:
+
+```
+More Strict (Reduce FP)          More Lenient (Reduce FN)
+├─ Higher threshold                ├─ Lower threshold
+├─ Fewer false alarms             ├─ Catch more cases
+├─ More Type 2 Errors             ├─ More Type 1 Errors
+└─ Lower Recall, Higher Precision  └─ Higher Recall, Lower Precision
+```
+
+### Example: Email Spam Filter
+
+If you make the filter **very strict**:
+- ✓ Few spam emails (low FP) get through
+- ✗ Many legitimate emails get blocked (high FN)
+
+If you make the filter **very lenient**:
+- ✓ Few legitimate emails get blocked (low FN)
+- ✗ Many spam emails (high FP) get through
+
 
 ## Comparison: Accuracy vs Confusion Matrix
 
