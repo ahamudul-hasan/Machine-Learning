@@ -1,5 +1,41 @@
 # Classification Metrics: Accuracy & Confusion Matrix
 
+## Table of Contents
+- [Overview](#overview)
+- [1. Accuracy](#1-accuracy)
+  - [What is Accuracy?](#what-is-accuracy)
+  - [Formula](#formula)
+  - [Visual Explanation](#visual-explanation)
+  - [Simple Example](#simple-example)
+  - [When to Use Accuracy](#when-to-use-accuracy)
+  - [When NOT to Use Accuracy](#when-not-to-use-accuracy)
+- [When Accuracy is Misleading ⚠️](#when-accuracy-is-misleading-️)
+  - [The Problem with Accuracy](#the-problem-with-accuracy)
+  - [Real Example: The Useless Model Problem](#real-example-the-useless-model-problem)
+  - [Why is This Happening?](#why-is-this-happening)
+  - [The Real Problem](#the-real-problem)
+  - [Another Example: Spam Detection](#another-example-spam-detection)
+  - [When Accuracy is Most Misleading](#when-accuracy-is-most-misleading)
+  - [How to Spot If Accuracy is Misleading](#how-to-spot-if-accuracy-is-misleading)
+  - [The Solution: Don't Use Accuracy Alone!](#the-solution-dont-use-accuracy-alone)
+  - [Key Takeaway](#key-takeaway)
+- [2. Confusion Matrix](#2-confusion-matrix)
+  - [What is a Confusion Matrix?](#what-is-a-confusion-matrix)
+  - [Breaking Down Each Cell](#breaking-down-each-cell)
+  - [Real Example](#real-example)
+  - [Useful Metrics Derived from Confusion Matrix](#useful-metrics-derived-from-confusion-matrix)
+  - [When Confusion Matrix is Useful](#when-confusion-matrix-is-useful)
+- [3. Type 1 and Type 2 Errors](#3-type-1-and-type-2-errors)
+  - [What Are Type 1 and Type 2 Errors?](#what-are-type-1-and-type-2-errors)
+  - [Type 1 Error (False Positive)](#type-1-error-false-positive)
+  - [Type 2 Error (False Negative)](#type-2-error-false-negative)
+  - [Visual Comparison](#visual-comparison)
+  - [Which Error is Worse?](#which-error-is-worse)
+  - [Example with Numbers](#example-with-numbers)
+  - [Controlling Type 1 and Type 2 Errors](#controlling-type-1-and-type-2-errors)
+  - [Example: Email Spam Filter](#example-email-spam-filter)
+- [Comparison: Accuracy vs Confusion Matrix](#comparison-accuracy-vs-confusion-matrix)
+
 ## Overview
 When we build classification models (models that predict categories like Yes/No, Pass/Fail, etc.), we need ways to measure how well they perform. The two fundamental metrics for this are **Accuracy** and **Confusion Matrix**.
 
