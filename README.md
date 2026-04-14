@@ -27,8 +27,6 @@
 | 4 | [🤖 Models](#6--models) | Supervised · Unsupervised |
 | 5 | [📏 Model Evaluation & Metrics](#7--model-evaluation--metrics) | Classification · Regression · Cross-Validation |
 | 6 | [🔧 Hyperparameter Tuning](#8--hyperparameter-tuning) | Grid Search · Random · Bayesian |
-| 7 | [🧠 Neural Networks & Deep Learning](#9--neural-networks--deep-learning) | ANN · CNN · RNN · Frameworks |
-| 8 | [🚀 Model Deployment](#10--model-deployment) | APIs · Docker · Cloud · MLOps |
 
 ---
 
