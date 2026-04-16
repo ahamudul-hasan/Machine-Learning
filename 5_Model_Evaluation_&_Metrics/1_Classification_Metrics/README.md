@@ -43,6 +43,18 @@
   - [Real Examples](#real-examples-precision-recall-f1)
   - [When to Use Each Metric](#when-to-use-each-metric)
   - [Comparison Table](#comparison-table-precision-recall-f1)
+- [5. ROC Curve and ROC-AUC](#5-roc-curve-and-roc-auc)
+  - [What is a ROC Curve?](#what-is-a-roc-curve)
+  - [Understanding True Positive Rate (TPR)](#understanding-true-positive-rate-tpr)
+  - [Understanding False Positive Rate (FPR)](#understanding-false-positive-rate-fpr)
+  - [What is ROC-AUC (Area Under the Curve)?](#what-is-roc-auc-area-under-the-curve)
+  - [How to Interpret ROC Curves](#how-to-interpret-roc-curves)
+  - [Perfect vs Poor Models](#perfect-vs-poor-models)
+  - [Reading ROC-AUC Values](#reading-roc-auc-values)
+  - [ROC Curve with Real Example](#roc-curve-with-real-example)
+  - [When to Use ROC-AUC](#when-to-use-roc-auc)
+  - [ROC-AUC vs Other Metrics](#roc-auc-vs-other-metrics)
+  - [Advantages and Disadvantages](#advantages-and-disadvantages)
 - [Comparison: Accuracy vs Confusion Matrix](#comparison-accuracy-vs-confusion-matrix)
 
 ## Overview
@@ -795,6 +807,270 @@ F1 = 2 × (0.487 × 0.95) / (0.487 + 0.95) = 64.3%
 | **Low value means**  | Many false alarms           | Many missed cases         | Poor balance        |
 | **Best for**         | Cost of FP is high          | Cost of FN is high        | Both matter equally |
 | **Range**            | 0 to 1 (0% to 100%)         | 0 to 1 (0% to 100%)       | 0 to 1 (0% to 100%) |
+
+---
+
+## 5. ROC Curve and ROC-AUC
+
+### What is a ROC Curve?
+
+A **ROC Curve** (Receiver Operating Characteristic Curve) is a graph that shows **how well your classification model performs across different decision thresholds**.
+
+Instead of just evaluating your model at one threshold, the ROC curve visualizes performance at **all possible thresholds**.
+
+### Understanding True Positive Rate (TPR)
+
+**TPR (True Positive Rate)** is the same as **Recall**:
+
+```
+TPR = TP / (TP + FN)
+```
+
+**What it measures**: Of all actual positive cases, how many did we correctly identify?
+
+**Range**: 0 to 1 (0% to 100%)
+- TPR = 1.0 means we caught all positive cases
+- TPR = 0.0 means we missed all positive cases
+
+### Understanding False Positive Rate (FPR)
+
+**FPR (False Positive Rate)** is the complement of **Specificity**:
+
+```
+FPR = FP / (FP + TN)
+```
+
+**What it measures**: Of all actual negative cases, how many did we incorrectly classify as positive (false alarms)?
+
+**Range**: 0 to 1 (0% to 100%)
+- FPR = 0.0 means no false alarms (perfect specificity)
+- FPR = 1.0 means we flagged all negatives as positive
+
+### What is ROC-AUC (Area Under the Curve)?
+
+**ROC-AUC** is a **single number** that summarizes the entire ROC curve:
+
+- **AUC** = Area Under the ROC Curve
+- **Value range**: 0 to 1 (often expressed as 0% to 100%)
+- It represents the **probability that the model ranks a random positive example higher than a random negative example**
+
+#### How AUC is Calculated
+
+The AUC is calculated by finding the area under the ROC curve:
+
+```
+        TPR (Sensitivity)
+        |
+      1 ├──────────────┐
+        |     /        │
+      0.5├────/────────┤  ← AUC = Area of shaded region
+        |  /          │
+      0 └──────────────┴────────
+        0    0.5      1
+              FPR (1 - Specificity)
+```
+
+You don't need to calculate this manually—sklearn and other libraries do it for you!
+
+### How to Interpret ROC Curves
+
+#### Key Points on the Graph
+
+1. **Bottom-left corner (0, 0)**
+   - FPR = 0, TPR = 0
+   - Meaning: No false positives, but also no true positives (too conservative)
+
+2. **Top-right corner (1, 1)**
+   - FPR = 1, TPR = 1
+   - Meaning: Catch all positives, but also have all false alarms (too lenient)
+
+3. **Top-left corner (0, 1)** ← IDEAL
+   - FPR = 0, TPR = 1
+   - Meaning: Catch all positives AND no false alarms (perfect model)
+
+4. **Diagonal line from (0,0) to (1,1)**
+   - This is the **random guessing baseline**
+   - A model that randomly guesses has AUC = 0.5
+
+### Perfect vs Poor Models
+
+#### Perfect Model
+
+```
+        TPR
+        |
+      1 ├──●────────────┐
+        |  │\           │
+      0.5├──┼──\────────┤
+        |  │    \      │
+      0 └──┼──────\────┴────────
+        0  │       \ 1
+           │        FPR
+           ↑
+        (Ideal: Stays at top-left)
+        AUC = 1.0 (100%)
+```
+
+#### Poor Model (Random Guessing)
+
+```
+        TPR
+        |
+      1 ├───────────────┐
+        |            /  │
+      0.5├─────────/────┤  ← Diagonal line
+        |      /        │
+      0 └──────────────┴────────
+        0             1
+              FPR
+        
+        AUC = 0.5 (50%)
+```
+
+#### Worse Than Random (Bad Model)
+
+```
+        TPR
+        |
+      1 ├──────────────┐
+        |           /  │
+      0.5├────────/────┤
+        |      /       │
+      0 └──────────────┴────────
+        0    /        1
+           FPR
+           
+        AUC < 0.5 (Below average)
+        (Usually indicates flipped predictions)
+```
+
+### Reading ROC-AUC Values
+
+| AUC Score | Model Quality              | Interpretation                                        |
+| --------- | -------------------------- | ----------------------------------------------------- |
+| 0.90-1.0  | **Excellent** ⭐⭐⭐⭐⭐ | Outstanding discrimination; very reliable model      |
+| 0.80-0.90 | **Good** ⭐⭐⭐⭐           | Strong discrimination; good model                    |
+| 0.70-0.80 | **Fair** ⭐⭐⭐             | Acceptable discrimination                            |
+| 0.60-0.70 | **Poor** ⭐⭐              | Weak discrimination; may need improvement            |
+| 0.50-0.60 | **Fail** ⭐                | Barely better than random guessing                   |
+| 0.50      | **Random**                 | No discriminative ability (pure guessing)            |
+| 0.40-0.50 | **Worse Than Random** ❌   | Predictions are often wrong; possibly inverted       |
+| 0-0.40    | **Very Poor** ❌           | Seriously flawed model                               |
+
+### ROC Curve with Real Example
+
+#### Medical Diagnosis Example
+
+Dataset: 100 patients (30 with disease, 70 healthy)
+
+**At Different Thresholds:**
+
+```
+Threshold 0.1 (Very Lenient - Predict "Disease" for almost everyone)
+├─ TP = 29 (caught almost all disease cases)
+├─ FP = 60 (but lots of false alarms)
+├─ TPR = 29/30 = 96.7%
+└─ FPR = 60/70 = 85.7%
+   Point: (0.857, 0.967) - Top right area
+
+Threshold 0.5 (Moderate Threshold)
+├─ TP = 24
+├─ FP = 18
+├─ TPR = 24/30 = 80%
+└─ FPR = 18/70 = 25.7%
+   Point: (0.257, 0.80) - Middle area
+
+Threshold 0.9 (Very Strict - Predict "Disease" only when very sure)
+├─ TP = 15 (miss many disease cases)
+├─ FP = 5 (but few false alarms)
+├─ TPR = 15/30 = 50%
+└─ FPR = 5/70 = 7.1%
+   Point: (0.071, 0.50) - Bottom left area
+```
+
+**ROC Curve for this model:**
+
+```
+        TPR
+        |
+      1 ├─────────────────────┐
+        |       ░░░░░░░░░░    │
+      0.9├──────░░░░░░░───────┤
+        |     ░░     threshold=0.1
+        |    ░░
+      0.8├───░─────────────────┤
+        |  ░░
+        | ░░          threshold=0.5
+      0.5├░─────────────────────┤
+        |░
+        |░         threshold=0.9
+      0.2├─────────────────────┤
+        |  /  (random baseline)
+      0 └──────────────────────┴─────
+        0    0.2    0.4    0.6    1
+                      FPR
+                      
+        AUC = 0.87 (Area under the curve)
+```
+
+### When to Use ROC-AUC
+
+✓ **Use ROC-AUC when:**
+
+- Dataset is **imbalanced** (unequal class sizes)
+- You want to evaluate model performance **across all thresholds**
+- You need to **visualize the trade-off** between TPR and FPR
+- Choosing optimal threshold is important
+- You want a **threshold-independent** metric
+- Binary classification problems
+- Comparing multiple models on the same data
+
+✗ **Don't use ROC-AUC alone when:**
+
+- You need a single decision threshold
+- One type of error is much more costly than the other
+- Multi-class classification (use "One-vs-Rest" ROC curves)
+- You already have a fixed threshold in production
+
+### ROC-AUC vs Other Metrics
+
+| Aspect                  | ROC-AUC | Precision | Recall | F1-Score | Accuracy |
+| ----------------------- | ------- | --------- | ------ | -------- | -------- |
+| **Threshold-aware?**    | No      | Yes       | Yes    | Yes      | Yes      |
+| **Works with imbalance?** | Yes     | Yes       | Yes    | Yes      | No       |
+| **Single number?**      | Yes     | Yes       | Yes    | Yes      | Yes      |
+| **Considers all thresholds?** | Yes | No     | No     | No       | No       |
+| **Binary only?**        | Yes     | No        | No     | No       | No       |
+| **Interpretation**      | Probability ranking | Precision | Coverage | Balance  | Overall  |
+
+### Advantages and Disadvantages
+
+#### Advantages of ROC-AUC ✓
+
+1. **Threshold-Independent**: Evaluates model at all possible thresholds
+2. **Handles Imbalance**: Works well with imbalanced datasets
+3. **Visual Insight**: ROC curve shows trade-off between TPR and FPR
+4. **Single Metric**: Easy to compare models (AUC score)
+5. **Probabilistic**: Measures ranking ability, not just classification
+6. **Robust**: Not affected by class distribution changes
+
+#### Disadvantages of ROC-AUC ✗
+
+1. **Not Intuitive**: Less intuitive than accuracy or precision
+2. **Doesn't Use Threshold**: In production, you typically use one threshold
+3. **Optimistic with Imbalance**: Can be misleadingly high with extreme imbalance
+4. **Binary Only**: Requires modification for multi-class problems
+5. **Ignores Costs**: Treats all errors equally (doesn't weight FP vs FN costs)
+6. **Misleading with Extreme Imbalance**: For highly imbalanced data (>99%), use PR-AUC instead
+
+### Best Practices for Using ROC-AUC
+
+1. **Always visualize the curve**, not just the number
+2. **Compare to baseline** (diagonal line = 0.5)
+3. **Use with imbalanced data**, but consider PR-AUC for extreme imbalance
+4. **Combine with other metrics** like precision, recall, F1
+5. **When choosing threshold**, look at the specific part of the curve that matters
+6. **Document which metric** you optimized for (may explain real-world performance)
 
 ---
 
