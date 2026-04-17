@@ -1,4 +1,4 @@
-# dClassification Metrics: Accuracy & Confusion Matrix
+# Classification Metrics: Accuracy & Confusion Matrix
 
 ## Table of Contents
 
