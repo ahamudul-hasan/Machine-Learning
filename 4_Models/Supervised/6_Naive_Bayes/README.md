@@ -237,105 +237,162 @@ With smoothing (add-one):
 
 ---
 
-## Implementation Example
+## Manual Implementation with Play Tennis Dataset
 
-### Python with Scikit-learn
+### Overview
+This implementation demonstrates Naive Bayes classification using a real dataset. The goal is to predict whether to play tennis given weather conditions (Outlook, Temperature, Humidity, Wind).
 
-```python
-from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
-import numpy as np
-
-# Example 1: Gaussian Naive Bayes (Continuous Features)
-from sklearn.datasets import iris
-
-X, y = iris.data, iris.target
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-gnb = GaussianNB()
-gnb.fit(X_train, y_train)
-y_pred = gnb.predict(X_test)
-
-print(f"Gaussian NB Accuracy: {accuracy_score(y_test, y_pred)}")
-print(f"Prior Probabilities: {gnb.class_prior_}")
-print(f"Feature means per class:\n{gnb.theta_}")
-print(f"Feature variances per class:\n{gnb.var_}")
-
-# Example 2: Multinomial Naive Bayes (Text Classification)
-from sklearn.feature_extraction.text import CountVectorizer
-
-documents = [
-    "Python is great for data science",
-    "Machine learning is fascinating",
-    "Python machine learning",
-    "Data science with Python"
-]
-labels = [1, 1, 1, 1]  # All positive
-
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(documents)
-
-mnb = MultinomialNB()
-mnb.fit(X, labels)
-
-# Predict new document
-new_doc = vectorizer.transform(["Python data science"])
-prediction = mnb.predict(new_doc)
-probability = mnb.predict_proba(new_doc)
-
-print(f"\nPrediction: {prediction}")
-print(f"Probability: {probability}")
-
-# Example 3: Bernoulli Naive Bayes (Binary Features)
-bnb = BernoulliNB()
-X_binary = np.array([[0, 1], [1, 0], [1, 1], [0, 0]])
-y_binary = np.array([1, 0, 1, 0])
-
-bnb.fit(X_binary, y_binary)
-print(f"\nBernoulli NB prediction: {bnb.predict([[1, 1]])}")
-```
-
-### Manual Implementation
+### Step 1: Load and Prepare Data
 
 ```python
+import pandas as pd
 import numpy as np
 
-class NaiveBayesGaussian:
-    def fit(self, X, y):
-        self.classes = np.unique(y)
-        self.parameters = {}
-        
-        for c in self.classes:
-            X_c = X[y == c]
-            self.parameters[c] = {
-                'mean': X_c.mean(axis=0),
-                'var': X_c.var(axis=0),
-                'priors': len(X_c) / len(X)
-            }
-    
-    def _calculate_likelihood(self, x, mean, var):
-        numerator = np.exp(-(x - mean) ** 2 / (2 * var))
-        denominator = np.sqrt(2 * np.pi * var)
-        return numerator / denominator
-    
-    def predict(self, X):
-        predictions = []
-        for x in X:
-            posteriors = []
-            for c in self.classes:
-                prior = np.log(self.parameters[c]['priors'])
-                likelihood = np.sum(
-                    np.log(self._calculate_likelihood(
-                        x,
-                        self.parameters[c]['mean'],
-                        self.parameters[c]['var']
-                    ))
-                )
-                posteriors.append(prior + likelihood)
-            predictions.append(self.classes[np.argmax(posteriors)])
-        return np.array(predictions)
+data = pd.read_csv('../../../Data/play_tennis.csv')
+data = data.drop(columns=['day'])
+data
 ```
+
+This loads the play tennis dataset and removes the 'day' column as it's not relevant for our prediction.
+
+### Step 2: Calculate Prior Probabilities
+
+```python
+# Count class distribution
+data['play'].value_counts()
+
+# Calculate probabilities
+py = 9/14  # P(Yes) = 0.643
+pn = 5/14  # P(No) = 0.357
+
+print(py)  # 0.6428571...
+print(pn)  # 0.3571428...
+```
+
+The prior probabilities represent our initial belief before observing any features:
+- **P(Yes)** = 9/14 (9 out of 14 days had play)
+- **P(No)** = 5/14 (5 out of 14 days had no play)
+
+### Step 3: Calculate Conditional Probabilities for Each Feature
+
+#### Feature 1: Outlook
+
+```python
+pd.crosstab(data['outlook'], data['play'])
+
+# P(Outlook|No)
+Pon = 0          # Overcast: 0/5
+Prn = 2/5        # Rainy: 2/5
+Psn = 3/5        # Sunny: 3/5
+
+# P(Outlook|Yes)
+Poy = 4/9        # Overcast: 4/9
+Pry = 3/9        # Rainy: 3/9
+Psy = 2/9        # Sunny: 2/9
+```
+
+This shows the distribution of outlook values for each class. For example, among "No play" days, 3/5 were sunny.
+
+#### Feature 2: Temperature
+
+```python
+pd.crosstab(data['temp'], data['play'])
+
+# P(Temp|No)
+PCoolNo = 1/5    # Cool: 1/5
+PHotNo = 2/5     # Hot: 2/5
+PMildNo = 2/5    # Mild: 2/5
+
+# P(Temp|Yes)
+PCoolYes = 3/9   # Cool: 3/9
+PHotYes = 2/9    # Hot: 2/9
+PMildYes = 4/9   # Mild: 4/9
+```
+
+Temperature distribution within each class.
+
+#### Feature 3: Humidity
+
+```python
+pd.crosstab(data['humidity'], data['play'])
+
+# P(Humidity|No)
+PHighNo = 4/5    # High: 4/5
+PNormalNo = 1/5  # Normal: 1/5
+
+# P(Humidity|Yes)
+PHighYes = 3/9   # High: 3/9
+PNormalYes = 6/9 # Normal: 6/9
+```
+
+Humidity distribution within each class.
+
+#### Feature 4: Wind
+
+```python
+pd.crosstab(data['wind'], data['play'])
+
+# P(Wind|No)
+PStrongNo = 3/5  # Strong: 3/5
+PWeakNo = 2/5    # Weak: 2/5
+
+# P(Wind|Yes)
+PStrongYes = 3/9 # Strong: 3/9
+PWeakYes = 6/9   # Weak: 6/9
+```
+
+Wind distribution within each class.
+
+### Step 4: Make a Prediction
+
+**Prediction Task:** Outlook = Sunny, Temp = Hot, Humidity = High, Wind = Weak
+
+#### Calculate P(Yes | Features)
+
+```python
+# Using Naive Bayes formula: P(C|X) ∝ P(C) × P(X₁|C) × P(X₂|C) × P(X₃|C) × P(X₄|C)
+Pyes = py * Psy * PHotYes * PHighYes * PWeakYes
+print(Pyes)  # 0.007161458...
+
+# Breaking it down:
+# P(Yes) = 9/14
+# P(Sunny|Yes) = 2/9
+# P(Hot|Yes) = 2/9
+# P(High|Yes) = 3/9
+# P(Weak|Yes) = 6/9
+# Result: (9/14) × (2/9) × (2/9) × (3/9) × (6/9)
+```
+
+#### Calculate P(No | Features)
+
+```python
+Pno = pn * Psn * PHotNo * PHighNo * PWeakNo
+print(Pno)  # 0.0095238...
+
+# Breaking it down:
+# P(No) = 5/14
+# P(Sunny|No) = 3/5
+# P(Hot|No) = 2/5
+# P(High|No) = 4/5
+# P(Weak|No) = 2/5
+# Result: (5/14) × (3/5) × (2/5) × (4/5) × (2/5)
+```
+
+### Step 5: Decision
+
+```python
+# Pyes (0.00716) > Pno (0.00952) is False
+# So we predict: No play
+```
+
+Since P(Yes | Features) < P(No | Features), the algorithm predicts **"No Play"** for the given weather conditions.
+
+### Key Points
+
+1. **Independence Assumption**: We multiply the individual conditional probabilities, assuming each feature is independent given the class
+2. **Feature Frequency**: All conditional probabilities are derived from frequency counts in the training data
+3. **No Smoothing**: This implementation doesn't use Laplace smoothing; real implementations should handle unseen combinations
+4. **Comparative Decision**: We only need to compare the posterior probabilities; the exact values don't matter
 
 ---
 
