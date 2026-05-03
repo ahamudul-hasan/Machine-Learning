@@ -174,14 +174,132 @@ where:
 ## Practical Considerations
 
 ### 1. Kernel Trick
-Both hard and soft margin SVMs can be extended to handle non-linear decision boundaries using the **kernel trick**:
+
+#### What is the Kernel Trick?
+
+The **Kernel Trick** is a clever mathematical technique that allows SVMs to operate in high-dimensional or even infinite-dimensional spaces **without explicitly computing the coordinates** in those spaces. This makes it possible to find non-linear decision boundaries while maintaining computational efficiency.
+
+#### The Core Idea
+
+The original SVM formulation uses dot products $\mathbf{x}_i^T \mathbf{x}_j$ to compute similarity between feature vectors. The kernel trick replaces these dot products with a **kernel function** $K(\mathbf{x}_i, \mathbf{x}_j)$ that implicitly computes the dot product in a transformed (often higher-dimensional) space:
 
 $$\mathbf{x}_i^T \mathbf{x}_j \rightarrow K(\mathbf{x}_i, \mathbf{x}_j)$$
 
-Common kernels:
-- **Linear**: $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j$
-- **Polynomial**: $K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + 1)^d$
-- **RBF (Gaussian)**: $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$
+#### Mathematical Foundation
+
+Suppose we have a transformation function $\phi(\mathbf{x})$ that maps original features to a higher-dimensional space:
+
+$$\phi: \mathbb{R}^d \rightarrow \mathbb{R}^D \quad \text{where } D \gg d \text{ or } D = \infty$$
+
+In the transformed space, the dot product is:
+$$\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$$
+
+A kernel function $K$ computes this dot product **without explicitly calculating** $\phi(\mathbf{x}_i)$ and $\phi(\mathbf{x}_j)$:
+
+$$K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$$
+
+#### Why is it Useful?
+
+1. **Computational Efficiency**: Avoids explicit computation of $\phi(\mathbf{x})$ which can be extremely expensive or impossible for infinite-dimensional spaces
+2. **Non-linear Boundaries**: Enables SVMs to find non-linear decision boundaries in the original feature space
+3. **Simplicity**: The SVM algorithm remains unchanged; we just replace dot products with kernel evaluations
+
+#### Example
+
+Consider a simple 2D case with transformation to 3D:
+
+**Original features**: $\mathbf{x} = [x_1, x_2]$
+
+**Transformation function**: 
+$$\phi(\mathbf{x}) = [x_1^2, x_2^2, \sqrt{2}x_1 x_2]$$
+
+**Direct computation** (expensive for many dimensions):
+- Compute $\phi(\mathbf{x}_i)$ explicitly
+- Compute $\phi(\mathbf{x}_j)$ explicitly  
+- Calculate their dot product: $\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$
+
+**Using kernel trick** (efficient):
+$$K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j)^2$$
+
+This single operation replaces the three steps above!
+
+#### Common Kernel Functions
+
+| Kernel | Formula | Parameters | Use Case |
+|--------|---------|-----------|----------|
+| **Linear** | $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j$ | None | Linearly separable data |
+| **Polynomial** | $K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + c)^d$ | $c$ (offset), $d$ (degree) | Non-linear relationships |
+| **RBF (Gaussian)** | $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$ | $\gamma$ (bandwidth) | Complex, local patterns |
+| **Sigmoid** | $K(\mathbf{x}_i, \mathbf{x}_j) = \tanh(\kappa \mathbf{x}_i^T \mathbf{x}_j + \theta)$ | $\kappa$, $\theta$ | Neural network-like behavior |
+
+#### Detailed Kernel Descriptions
+
+**Linear Kernel**
+- No transformation; works in original feature space
+- Best when data is already nearly linearly separable
+- Fastest computation: $O(d)$ where $d$ is number of features
+- Interpretable decision boundary
+
+**Polynomial Kernel** (degree $d=2$ example)
+$$K(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + 1)^2$$
+
+Implicitly maps to all polynomial combinations up to degree $d$:
+- Maps 2D space $[x_1, x_2]$ to 6D: $[1, x_1, x_2, x_1^2, x_1 x_2, x_2^2]$
+- Good for moderate non-linearity
+- Computationally cheaper than RBF
+- Careful with degree: high degree can overfit
+
+**RBF (Radial Basis Function) Kernel**
+$$K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$$
+
+where $\gamma = \frac{1}{2\sigma^2}$ (bandwidth parameter)
+
+- Implicit transformation to infinite-dimensional space
+- Most versatile; works well for most non-linear problems
+- Parameter $\gamma$ is critical:
+  - Small $\gamma$: Points far apart have influence → smoother decision boundary
+  - Large $\gamma$: Only nearby points matter → more complex boundary, risk of overfitting
+- Default choice for many practitioners
+
+#### Mercer's Theorem (Theoretical Foundation)
+
+Not all functions are valid kernels. A function $K$ is a valid kernel if and only if it satisfies **Mercer's Theorem**:
+
+For any function $K(\mathbf{x}_i, \mathbf{x}_j)$ to be a valid kernel, the resulting kernel matrix $\mathbf{K}$ must be **positive semi-definite** for any set of inputs.
+
+This ensures the optimization problem has a unique solution.
+
+#### SVM with Kernel Trick - Dual Formulation
+
+The dual optimization problem becomes:
+
+$$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{n} \alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n} \alpha_i \alpha_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$$
+
+The decision function becomes:
+
+$$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^{n} \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b\right)$$
+
+Notice: We never explicitly compute $\phi(\mathbf{x})$!
+
+#### Practical Guidelines for Kernel Selection
+
+1. **Start with Linear**: Always try linear kernel first for baseline
+2. **Try RBF next**: RBF is most popular; works well for most problems
+3. **Use Polynomial**: For problems with known polynomial structure
+4. **Tune parameters**: 
+   - For RBF: Tune $\gamma$ via cross-validation
+   - For Polynomial: Tune degree $d$ (typically 2-5)
+5. **Avoid overfitting**: High complexity kernels with small C can overfit
+
+#### Computational Complexity with Kernels
+
+- **Training**: $O(n^3)$ (quadratic programming; scales poorly with dataset size)
+- **Kernel evaluation**: Depends on kernel type
+  - Linear: $O(d)$
+  - Polynomial degree $d$: $O(d)$  
+  - RBF: $O(d)$
+- **Prediction**: $O(n_{sv} \cdot d)$ where $n_{sv}$ is number of support vectors
+- **Kernel matrix storage**: $O(n^2)$ space (can be problematic for large $n$)
 
 ### 2. Hyperparameter Selection
 
